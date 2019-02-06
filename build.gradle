@@ -1,0 +1,50 @@
+
+plugins {
+    // Apply the java plugin to add support for Java
+    id 'java'
+
+    // Apply the application plugin to add support for building an application
+    id 'application'
+}
+
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+dependencies {
+    // This dependency is found on compile classpath of this component and consumers.
+    implementation 'com.google.guava:guava:27.0.1-jre'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+
+    // Logger
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.1'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.1'
+
+    // Google Gson - JSON library
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.2'    
+
+    // HyperSQL Database 
+     compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.0'
+}
+
+//Manifest
+jar {
+	manifest {
+		attributes "Main-Class": "org.analyser.LogTask"
+	}
+}
+
+// run with argument from gradle e.g.
+// gradle run -PappArgs="['x:\\test\\event.log', '-d', '-r']"
+run {
+    if (project.hasProperty("appArgs")) {
+        args Eval.me(appArgs)
+    }
+}
+
+// Define the main class for the application
+mainClassName = 'org.analyser.LogTask'
